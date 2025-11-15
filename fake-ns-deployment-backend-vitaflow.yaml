@@ -19,5 +19,9 @@ spec:
       containers:
         - name: backend-vitaflow
           image: leonardorscarpitta/vitaflow:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: fake-ns-configmap-backend-vitaflow
           ports:
-            - containerPort: 8080
+            - containerPort: 30042

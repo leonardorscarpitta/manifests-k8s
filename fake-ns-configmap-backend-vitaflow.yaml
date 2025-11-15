@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fake-ns-configmap-backend-vitaflow
+  namespace: fake-ns
+data:
+  SERVER_PORT: "30042"
+  
