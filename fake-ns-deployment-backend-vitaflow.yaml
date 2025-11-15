@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-ns-deployment-backend-vitaflow
+  namespace: fake-ns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      backend: vitaflow
+      component: backend-vitaflow
+
+  template:
+    metadata:
+      labels:
+        backend: vitaflow
+        component: backend-vitaflow
+    spec:
+      containers:
+        - name: backend-vitaflow
+          image: leonardorscarpitta/vitaflow:latest
+          ports:
+            - containerPort: 8080
