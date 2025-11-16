@@ -4,25 +4,31 @@ metadata:
   name: fake-ns-database-deployment-vitaflow
   namespace: fake-ns
 spec:
-  replicas: 2
-template:
-  metadata:
-    labels:
+  replicas: 1
+  selector:
+    matchLabels:
       database: vitaflow
-  spec:
-    containers:
-    - name: postgres
-      image: postgres:17-alpine
-      ports:
-        - containerPort: 5432
-      envFrom:
-        - secretRef:
-            name: fake-ns-database-secret-vitaflow
-      volumeMounts:
+
+  template:
+    metadata:
+      labels:
+        database: vitaflow
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17-alpine
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: fake-ns-database-secret-vitaflow
+            - configMapRef:
+                name: fake-ns-database-configmap-vitaflow
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      volumes:
         - name: postgres-storage
-          mountPath: /var/lib/postgresql/data
-          subPath: postgres
-    volumes:
-      - name: postgres-storage
-        persistentVolumeClaim:
-          claimName: fake-ns-database-pvc-vitaflow
+          persistentVolumeClaim:
+            claimName: fake-ns-database-pvc-vitaflow
