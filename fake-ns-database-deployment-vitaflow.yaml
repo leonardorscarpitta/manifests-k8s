@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-ns-database-deployment-vitaflow
+  namespace: fake-ns
+spec:
+  replicas: 2
+template:
+  metadata:
+    labels:
+      database: vitaflow
+  spec:
+    containers:
+    - name: postgres
+      image: postgres:17-alpine
+      ports:
+        - containerPort: 5432
+      envFrom:
+        - secretRef:
+            name: fake-ns-database-secret-vitaflow
+      volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+    volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: fake-ns-database-pvc-vitaflow
