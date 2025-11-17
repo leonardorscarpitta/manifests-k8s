@@ -31,8 +31,8 @@ spec:
             - name: backend-port
               containerPort: 30042
           startupProbe:
-            failureThreshold: 1
-            periodSeconds: 120
+            failureThreshold: 30
+            periodSeconds: 90
             httpGet:
               path: /
               port: backend-port
