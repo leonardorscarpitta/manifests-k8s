@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-ns-backend-deployment-vitaflow
+  namespace: fake-ns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      backend: vitaflow
+      component: backend-vitaflow
+
+  template:
+    metadata:
+      labels:
+        backend: vitaflow
+        component: backend-vitaflow
+    spec:
+      containers:
+        - name: backend-vitaflow
+          image: leonardorscarpitta/vitaflow:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: fake-ns-backend-configmap-vitaflow
+            - configMapRef:
+                name: fake-ns-database-configmap-vitaflow
+            - secretRef:
+                name: fake-ns-database-secret-vitaflow
+          ports:
+            - name: backend-port
+              containerPort: 30042
+          startupProbe:
+            failureThreshold: 30
+            periodSeconds: 90
+            httpGet:
+              path: /
+              port: backend-port
+          livenessProbe:
+            failureThreshold: 3
+            timeoutSeconds: 10
+            periodSeconds: 35
+            httpGet:
+              path: /
+              port: backend-port
