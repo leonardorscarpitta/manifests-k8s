@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fake-ns-frontend-nodeport-vitaflow
+  namespace: fake-ns
+spec:
+  type: ClusterIP
+  selector:
+    frontend: vitaflow
+    component: frontend-vitaflow
+  ports:
+    - targetPort: 30600
+      port: 8081
+      nodePort: 30600

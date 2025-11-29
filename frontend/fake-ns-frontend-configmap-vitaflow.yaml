@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fake-ns-frontend-configmap-vitaflow
+  namespace: fake-ns
+data:
+  BACKEND_CONNECTION: fake-ns-backend-deployment-vitaflow

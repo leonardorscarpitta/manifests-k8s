@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: fake-ns-database-configmap-vitaflow
-  namespace: fake-ns
-data:
-  STRING_CONEXAO: "jdbc:postgresql://fake-ns-database-clusterip-vitaflow:5432/vitaflow"
-  DATABASE_DRIVER: "org.postgresql.Driver"
-  DATABASE_DIALECT: "org.hibernate.dialect.PostgreSQLDialect"

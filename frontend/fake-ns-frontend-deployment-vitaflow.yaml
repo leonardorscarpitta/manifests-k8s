@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-ns-frontend-deployment-vitaflow
+  namespace: fake-ns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      frontend: vitaflow
+      component: frontend-vitaflow
+      
+  template:
+    metadata:
+      labels:
+        frontend: vitaflow
+        component: frontend-vitaflow
+    spec:
+      containers:
+        - name: frontend-vitaflow
+          image: leonardorscarpitta/vitaflowfrontend:latest
+          imagePullPolicy: Always
+          ports:
+            - name: frontend-port
+              containerPort: 30600
+          envFrom:
+            - secretRef:
+                name: fake-ns-frontend-secret-vitaflow
+          startupProbe:
+            failureThreshold: 30
+            periodSeconds: 90
+            httpGet:
+              path: /
+              port: frontend-port
+          livenessProbe:
+            failureThreshold: 3
+            timeoutSeconds: 10
+            periodSeconds: 35
+            httpGet:
+              path: /
+              port: frontend-port
