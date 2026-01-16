@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-ns-nero-deployment
+  namespace: fake-ns
+  labels:
+    app: discord
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discord
+  template:
+    metadata:
+      labels:
+        app: discord
+    spec:
+      containers:
+        - name: nero
+          image: leonardorscarpitta/nero:v1.0.0
+          imagePullPolicy: Never
+          ports:
+            - name: bot-app-port
+              containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: fake-ns-nero-secret
